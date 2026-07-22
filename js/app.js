@@ -116,7 +116,15 @@ const titles = {
   admin: ["Gestão da comunidade", "Painel administrativo"],
 };
 let current = "home",
-  bibleState = { book: "João", chapter: 3, version: "web" };
+  bibleState = { book: "João", chapter: 3, version: "web" },
+  bibleRequest = 0;
+const chapterCounts = {
+  "Gênesis": 50, "Êxodo": 40, "Salmos": 150, "Provérbios": 31,
+  "Isaías": 66, "Jeremias": 52, "Ezequiel": 48, "Daniel": 12,
+  "Mateus": 28, "Marcos": 16, "Lucas": 24, "João": 21, "Atos": 28,
+  "Romanos": 16, "1 Coríntios": 16, "Efésios": 6, "Filipenses": 4,
+  "Hebreus": 13, "Tiago": 5, "Apocalipse": 22
+};
 const esc = (s) =>
   String(s).replace(
     /[&<>"']/g,
@@ -392,7 +400,7 @@ function bible() {
       .join("") +
     "</optgroup>";
   const chapters = Array.from(
-    { length: 50 },
+    { length: chapterCounts[bibleState.book] || 50 },
     (_, i) =>
       '<option value="' +
       (i + 1) +
@@ -493,10 +501,10 @@ function donations() {
 }
 function profile() {
   const u = store.get("profile", {
-    name: "Kaique Oliveira",
+    name: "Kaique Bazil",
     email: "kaique@exemplo.com",
-    phone: "(11) 99999-0000",
-    birth: "12/08/1995",
+    phone: "(21) 977297049",
+    birth: "14/11/2003",
   });
   const favorites = store.get("favorites", []).length;
   return layout(
@@ -643,12 +651,15 @@ function render() {
 }
 async function loadBible() {
   const reader = $("#reader");
+  if (!reader) return;
+  const request = ++bibleRequest;
   reader.innerHTML = '<div class="skeleton"></div>';
   const d = await getChapter(
     bibleState.book,
     bibleState.chapter,
     bibleState.version,
   );
+  if (request !== bibleRequest) return;
   const fav = store.get("favorites", []);
   reader.innerHTML =
     '<p class="meta">' +
@@ -911,6 +922,12 @@ document.addEventListener("change", (e) => {
     bibleState.book = $("#bible-book").value;
     bibleState.chapter = +$("#bible-chapter").value;
     bibleState.version = $("#bible-version").value;
+    if (bibleState.chapter > (chapterCounts[bibleState.book] || 50))
+      bibleState.chapter = 1;
+    if (e.target.id === "bible-book") {
+      render();
+      return;
+    }
     loadBible();
   }
   if (e.target.id === "dark-mode") {
