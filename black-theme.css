@@ -1,0 +1,25 @@
+/* Tema escuro padrão: preto profundo, contraste confortável e dourado discreto. */
+body.dark {
+  --surface: #070807;
+  --card: #101211;
+  --ink: #f3f5f1;
+  --muted: #b2b8b3;
+  --line: #262b27;
+  --soft: #1b2922;
+  --brand: #6ca891;
+  --brand2: #d8b56d;
+  background: #000;
+}
+body.dark { background: #000; }
+body.dark .topbar { background: rgba(7,8,7,.91); }
+body.dark .bottom-nav { background: rgba(8,10,9,.96); border-color: #262b27; }
+body.dark .card, body.dark .quick, body.dark .menu-item { background: #101211; }
+body.dark input, body.dark select, body.dark textarea { background: #0a0c0b; color: #f3f5f1; border-color: #343a35; }
+body.dark .filter { background: #101211; color: #c4cbc5; border-color: #343a35; }
+body.dark .filter.active { background: #6ca891; color: #06100b; border-color: #6ca891; }
+body.dark .quote { background: #1b1811; color: #f7f3e8; }
+body.dark .modal { background: #101211; }
+body.dark .hero { background: linear-gradient(135deg,#0a1711,#254a3c); }
+body.dark .btn { background: #6ca891; color: #06100b; }
+body.dark .btn.gold { background: #d8b56d; color: #20180a; }
+body.dark .btn.secondary { background: #1b2922; color: #c9eadb; }

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#193b35">
+  <meta name="description" content="Comunidade Vida Plena — fé, comunhão e propósito.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="logo.ico">
+  <link rel="apple-touch-icon" href="logo.jpg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="black-theme.css">
+  <title>ADECC APP</title>
+</head>
+<body class="dark">
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="icon-btn brand-mark" data-nav="home" aria-label="Ir para início">✦</button>
+      <div><p class="eyebrow" id="page-kicker">Comunidade</p><h1 id="page-title">ADECC APP</h1></div>
+      <button class="icon-btn notification-button" data-nav="notifications" aria-label="Notificações">♧<span class="badge" id="notification-badge">3</span></button>
+    </header>
+    <main id="app-content" tabindex="-1"></main>
+    <nav class="bottom-nav" aria-label="Navegação principal">
+      <button data-nav="home" class="nav-item active"><span>⌂</span>Início</button>
+      <button data-nav="bible" class="nav-item"><span>✧</span>Bíblia</button>
+      <button data-nav="agenda" class="nav-item"><span>□</span>Agenda</button>
+      <button data-nav="prayer" class="nav-item"><span>♡</span>Oração</button>
+      <button data-nav="menu" class="nav-item"><span>☰</span>Menu</button>
+    </nav>
+  </div>
+  <div id="modal-root"></div><div id="toast-root" aria-live="polite"></div>
+  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/extras.js"></script>
+</body>
+</html>

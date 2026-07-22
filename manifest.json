@@ -1,0 +1,11 @@
+{
+  "name": "Vida Plena",
+  "short_name": "Vida Plena",
+  "description": "Comunidade, fé e propósito.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f8f7f2",
+  "theme_color": "#193b35",
+  "lang": "pt-BR",
+  "icons": [{"src":"logo.jpg","sizes":"192x192","type":"image/jpeg"}]
+}
