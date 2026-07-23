@@ -1,4 +1,4 @@
-import { getChapter, searchBible } from "./bible-api.js";
+import { getChapter } from "./bible-api.js";
 
 const $ = (s) => document.querySelector(s);
 const store = {
@@ -116,15 +116,26 @@ const titles = {
   admin: ["Gestão da comunidade", "Painel administrativo"],
 };
 let current = "home",
-  bibleState = { book: "João", chapter: 3, version: "web" },
+  bibleState = { book: "João", chapter: 3, version: "almeida" },
   bibleRequest = 0;
+
 const chapterCounts = {
-  "Gênesis": 50, "Êxodo": 40, "Salmos": 150, "Provérbios": 31,
-  "Isaías": 66, "Jeremias": 52, "Ezequiel": 48, "Daniel": 12,
+  "Gênesis": 50, "Êxodo": 40, "Levítico": 27, "Números": 36, "Deuteronômio": 34,
+  "Josué": 24, "Juízes": 21, "Rute": 4, "1 Samuel": 31, "2 Samuel": 24,
+  "1 Reis": 22, "2 Reis": 25, "1 Crônicas": 29, "2 Crônicas": 36, "Esdras": 10,
+  "Neemias": 13, "Ester": 10, "Jó": 42, "Salmos": 150, "Provérbios": 31,
+  "Eclesiastes": 12, "Cantares": 8, "Isaías": 66, "Jeremias": 52, "Lamentações": 5,
+  "Ezequiel": 48, "Daniel": 12, "Oséias": 14, "Joel": 3, "Amós": 9,
+  "Obadias": 1, "Jonas": 4, "Miquéias": 7, "Naum": 3, "Habacuque": 3,
+  "Sofonias": 3, "Ageu": 2, "Zacarias": 14, "Malaquias": 4,
   "Mateus": 28, "Marcos": 16, "Lucas": 24, "João": 21, "Atos": 28,
-  "Romanos": 16, "1 Coríntios": 16, "Efésios": 6, "Filipenses": 4,
-  "Hebreus": 13, "Tiago": 5, "Apocalipse": 22
+  "Romanos": 16, "1 Coríntios": 16, "2 Coríntios": 13, "Gálatas": 6,
+  "Efésios": 6, "Filipenses": 4, "Colossenses": 4, "1 Tessalonicenses": 5,
+  "2 Tessalonicenses": 3, "1 Timóteo": 6, "2 Timóteo": 4, "Tito": 3,
+  "Filemom": 1, "Hebreus": 13, "Tiago": 5, "1 Pedro": 5, "2 Pedro": 3,
+  "1 João": 5, "2 João": 1, "3 João": 1, "Judas": 1, "Apocalipse": 22
 };
+
 const esc = (s) =>
   String(s).replace(
     /[&<>"']/g,
@@ -352,28 +363,22 @@ function prayer() {
 }
 function bible() {
   const old = [
-    "Gênesis",
-    "Êxodo",
-    "Salmos",
-    "Provérbios",
-    "Isaías",
-    "Jeremias",
-    "Ezequiel",
-    "Daniel",
+    "Gênesis", "Êxodo", "Levítico", "Números", "Deuteronômio",
+    "Josué", "Juízes", "Rute", "1 Samuel", "2 Samuel",
+    "1 Reis", "2 Reis", "1 Crônicas", "2 Crônicas",
+    "Esdras", "Neemias", "Ester", "Jó", "Salmos", "Provérbios",
+    "Eclesiastes", "Cantares", "Isaías", "Jeremias", "Lamentações",
+    "Ezequiel", "Daniel", "Oséias", "Joel", "Amós", "Obadias",
+    "Jonas", "Miquéias", "Naum", "Habacuque", "Sofonias",
+    "Ageu", "Zacarias", "Malaquias"
   ];
   const newer = [
-    "Mateus",
-    "Marcos",
-    "Lucas",
-    "João",
-    "Atos",
-    "Romanos",
-    "1 Coríntios",
-    "Efésios",
-    "Filipenses",
-    "Hebreus",
-    "Tiago",
-    "Apocalipse",
+    "Mateus", "Marcos", "Lucas", "João", "Atos",
+    "Romanos", "1 Coríntios", "2 Coríntios", "Gálatas",
+    "Efésios", "Filipenses", "Colossenses", "1 Tessalonicenses",
+    "2 Tessalonicenses", "1 Timóteo", "2 Timóteo", "Tito",
+    "Filemom", "Hebreus", "Tiago", "1 Pedro", "2 Pedro",
+    "1 João", "2 João", "3 João", "Judas", "Apocalipse"
   ];
   const books =
     '<optgroup label="Antigo Testamento">' +
@@ -417,7 +422,7 @@ function bible() {
       books +
       '</select><select id="bible-chapter" aria-label="Capítulo">' +
       chapters +
-      '</select><select id="bible-version" aria-label="Versão"><option value="web">WEB (API pública)</option><option value="ara">ARA (via proxy)</option><option value="nvi">NVI (via proxy)</option></select></div><div class="card"><label>Encontrar referência<input id="bible-search" placeholder="Ex.: João 3 ou John 3:16"></label><button class="link-btn" data-action="search-bible">Ir para texto</button></div><section class="section"><div id="reader" class="card bible-reader"><div class="skeleton"></div></div><div class="verse-actions"><button class="btn secondary" data-action="prev-chapter">← Capítulo</button><button class="btn secondary" data-action="next-chapter">Próximo →</button><button class="btn" data-action="bible-notes">Favoritos e notas</button></div></section>',
+      '</select><select id="bible-version" aria-label="Versão"><option value="nvi">NVI</option><option value="ara">ARA</option><option value="acf">ACF</option><option value="apee">APEE</option></select></div><section class="section"><div id="reader" class="card bible-reader"><div class="skeleton"></div></div><div class="verse-actions"><button class="btn secondary" data-action="prev-chapter">← Capítulo</button><button class="btn secondary" data-action="next-chapter">Próximo →</button><button class="btn" data-action="bible-notes">Favoritos e notas</button></div></section>',
   );
 }
 function sermons() {
@@ -660,6 +665,14 @@ async function loadBible() {
     bibleState.version,
   );
   if (request !== bibleRequest) return;
+  
+  // Garantir que verses é um array
+  const verses = Array.isArray(d.verses) ? d.verses : [];
+  if (verses.length === 0) {
+    reader.innerHTML = '<div class="empty">Nenhum versículo encontrado para este capítulo.</div>';
+    return;
+  }
+  
   const fav = store.get("favorites", []);
   reader.innerHTML =
     '<p class="meta">' +
@@ -667,7 +680,7 @@ async function loadBible() {
     " · " +
     d.source +
     "</p>" +
-    d.verses
+    verses
       .map(
         (v) =>
           '<p class="verse" data-verse="' +
@@ -790,14 +803,7 @@ function handleClick(e) {
       "Minhas anotações",
       '<div class="empty">Toque em um versículo para salvar uma anotação ou favorito.</div>',
     );
-  if (act === "search-bible") {
-    const q = $("#bible-search").value.trim();
-    if (q) {
-      bibleState.book = q.replace(/[0-9:]/g, "").trim() || "João";
-      bibleState.chapter = Number((q.match(/\d+/) || ["3"])[0]);
-      loadBible();
-    }
-  }
+  // CORREÇÃO: removi o '}' extra que estava aqui
   if (act === "edit-profile")
     modal(
       "Editar perfil",
@@ -836,7 +842,7 @@ function verseModal(el) {
   modal(
     ref,
     "<p>" +
-      el.textContent.replace(/^\\d+/, "") +
+      el.textContent.replace(/^\d+/, "") +
       '</p><div class="verse-actions"><button class="btn" data-favorite="' +
       esc(ref) +
       '">Favoritar</button><button class="btn secondary" data-share="' +
